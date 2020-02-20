@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.I18NBundleLoader;
 import com.badlogic.gdx.assets.loaders.ParticleEffectLoader.ParticleEffectParameter;
+import com.badlogic.gdx.assets.loaders.TextureAtlasLoader;
 import com.badlogic.gdx.assets.loaders.TextureLoader.TextureParameter;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
@@ -91,6 +92,7 @@ public class DefaultAOAssetManager extends AssetManager implements AOAssetManage
 
     @Override
     public void load() {
+        loadAtlas();
         loadObjects();
         loadSpells();
         loadDescriptors();
@@ -115,6 +117,10 @@ public class DefaultAOAssetManager extends AssetManager implements AOAssetManage
         load(languagesFile, I18NBundle.class, new I18NBundleLoader.I18NBundleParameter(new Locale(languagesLocale[0], languagesLocale[1])));
     }
 
+    private void loadAtlas() {
+        load(Resources.GAME_GRAPHICS_PATH + "atlas/" + Resources.GRAPHICS_ATLAS, TextureAtlas.class, new TextureAtlasLoader.TextureAtlasParameter(false));
+    }
+
     private void loadSkins() {
         load(Resources.GAME_SKIN_FILE, AOSkin.class);
     }
@@ -126,12 +132,14 @@ public class DefaultAOAssetManager extends AssetManager implements AOAssetManage
 
     @Override
     public Texture getTexture(int key) {
-        String fileName = Resources.GAME_GRAPHICS_PATH + key + Resources.GAME_GRAPHICS_EXTENSION;
+        String fileName = Resources.GAME_GRAPHICS_PATH + "atlas/" + Resources.GRAPHICS_ATLAS;
+
         if (!isLoaded(fileName)) {
             loadTexture(fileName);
             finishLoadingAsset(fileName);
         }
-        return get(fileName);
+
+        return get(fileName, TextureAtlas.class).findRegion(Integer.toString(key)).getTexture();
     }
 
     @Override

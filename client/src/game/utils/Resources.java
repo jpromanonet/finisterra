@@ -1,5 +1,9 @@
 package game.utils;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
 public class Resources {
 	
     // Paths
@@ -24,11 +28,12 @@ public class Resources {
     // Files
     public static final String GAME_SHADERS_LIGHT = "light.png";
     public static final String CLIENT_CONFIG = "Config.json";
+    public static final String GRAPHICS_ATLAS = "graphics.atlas";
 	
     // Extensions
     public static final String GAME_GRAPHICS_EXTENSION = ".png";
     public static final String GAME_SOUNDS_EXTENSION = ".ogg";
     public static final String GAME_MUSIC_EXTENSION = ".mp3";
     public static final String GAME_MIDI_EXTENSION = ".mid";
-    
+
 }
