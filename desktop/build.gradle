@@ -1,4 +1,5 @@
 import org.gradle.internal.os.OperatingSystem
+import com.badlogic.gdx.tools.texturepacker.TexturePacker
 
 plugins {
     id 'application'
@@ -122,5 +123,22 @@ task bundle(type: Exec, dependsOn: [dist, jlink]) {
         System.out.println("Application '${project.appName}' packaged.")
         System.out.println(" -> location: ${releasePath}/${project.appName}/")
 
+    }
+}
+
+// Packs the textures into atlases.
+task packTextures {
+    doLast {
+        def inputDir = assetsPath.concat("/data/graficos2x")
+        def outputDir = assetsPath.concat("/data/graficos2x/atlas")
+
+        TexturePacker.Settings settings = new TexturePacker.Settings();
+        settings.pot = false;
+        settings.maxWidth = 3072;
+        settings.maxHeight = 3072;
+	
+		System.out.println("Packing textures. Please be patient, this is gonna take some time...");
+        
+		TexturePacker.process(settings, inputDir, outputDir, "graphics")	
     }
 }
