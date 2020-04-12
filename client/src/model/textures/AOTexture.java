@@ -2,6 +2,7 @@ package model.textures;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import org.jetbrains.annotations.NotNull;
 
 public class AOTexture {
 
@@ -11,7 +12,7 @@ public class AOTexture {
         this(image,texture, true);
     }
 
-    public AOTexture(AOImage image, Texture texture, boolean flipY) {
+    public AOTexture(@NotNull AOImage image, Texture texture, boolean flipY) {
         this.textureRegion = new TextureRegion(texture,
                 image.getX(), image.getY(), image.getWidth(), image.getHeight());
         this.textureRegion.flip(false, flipY);

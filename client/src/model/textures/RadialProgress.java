@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import org.jetbrains.annotations.NotNull;
 
 public class RadialProgress {
     public static final Vector2[] POINTS = {
@@ -20,21 +21,23 @@ public class RadialProgress {
             new Vector2(.5f, 1f),
     };
 
-    private TextureRegion textureRegion;
-    private float[] vertices;
+    private final TextureRegion textureRegion;
+    private final float[] vertices;
     private int idx = 0;
     private Vector2 centerPt, percentPt;
-    private float x, y;
-    private float width, height;
-    private float u;
-    private float v;
-    private float u2;
-    private float v2;
-    private float ud;
-    private float vd;
+    private final float x;
+    private final float y;
+    private final float width;
+    private final float height;
+    private final float u;
+    private final float v;
+    private final float u2;
+    private final float v2;
+    private final float ud;
+    private final float vd;
     private float degrees;
     private float percent;
-    private float startAngle;
+    private final float startAngle;
 
     private boolean clockwise;
 
@@ -46,7 +49,7 @@ public class RadialProgress {
         this(textureRegion, x, y, textureRegion.getRegionWidth(), textureRegion.getRegionHeight(), false);
     }
 
-    public RadialProgress(TextureRegion textureRegion, float x, float y, float width, float height, boolean clockwise) {
+    public RadialProgress(@NotNull TextureRegion textureRegion, float x, float y, float width, float height, boolean clockwise) {
         this.textureRegion = textureRegion;
         this.x = x;
         this.y = y;
@@ -82,7 +85,7 @@ public class RadialProgress {
 
         if (clockwise) {
             int i = 0;
-            while (!intersects && i < POINTS.length) {
+            while (!intersects) {
                 intersects = buildQuad(POINTS[i++], POINTS[i++], POINTS[i], percentPt);
             }
         } else {
@@ -117,7 +120,7 @@ public class RadialProgress {
         return true;
     }
 
-    private void vert(Vector2 point, float color) {
+    private void vert(@NotNull Vector2 point, float color) {
         vert(x + point.x * width, y + point.y * height, color, u + ud * point.x, v + vd * point.y);
     }
 
@@ -129,7 +132,7 @@ public class RadialProgress {
         vertices[idx++] = v;
     }
 
-    public void draw(SpriteBatch batch) {
+    public void draw(@NotNull SpriteBatch batch) {
         batch.draw(textureRegion.getTexture(), vertices, 0, idx);
     }
 

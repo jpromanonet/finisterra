@@ -1,5 +1,7 @@
 package model.descriptors;
 
+import org.jetbrains.annotations.NotNull;
+
 public class HeadDescriptor extends Descriptor {
 
     public HeadDescriptor() {
@@ -9,7 +11,7 @@ public class HeadDescriptor extends Descriptor {
         super(headIndex);
     }
 
-    public HeadDescriptor(HeadDescriptor other) {
+    public HeadDescriptor(@NotNull HeadDescriptor other) {
         this(other.indexs);
     }
 

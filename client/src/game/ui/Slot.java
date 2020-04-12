@@ -24,7 +24,7 @@ public class Slot extends ImageButton {
     private Optional<Item> item = Optional.empty();
 
     private boolean selected;
-    private Tooltip tooltip;
+    private Tooltip<?> tooltip;
     private TextureRegion graphic;
 
     Slot() {
@@ -52,7 +52,7 @@ public class Slot extends ImageButton {
         return graphic;
     }
 
-    void setItem(Item item, TextureRegion graphic, Tooltip tooltip) {
+    void setItem(Item item, TextureRegion graphic, Tooltip<?> tooltip) {
         this.item = Optional.ofNullable(item);
         if (item == null) {
             return;

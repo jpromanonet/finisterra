@@ -16,7 +16,6 @@ public class SpellViewExpanded extends Table {
 
     private static final int MAX_SPELLS = 25;
     private final Window spellTable;
-    private final List<SpellSlotEC> slotsEC = new ArrayList<>(MAX_SPELLS);
     public Optional<Spell> selected = Optional.empty();
     private int base;
 
@@ -26,8 +25,6 @@ public class SpellViewExpanded extends Table {
         int columnsCounter = 1;
         for (int i = 0; i < MAX_SPELLS; i++) {
             SpellSlotEC slot = new SpellSlotEC(this, null);
-            slotsEC.add(slot);
-
             if (columnsCounter < 5) {
                 spellTable.add(slot).width(SpellSlotEC.SIZE).height(SpellSlotEC.SIZE);
             } else {

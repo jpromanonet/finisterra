@@ -13,6 +13,7 @@ import game.systems.PlayerSystem;
 import game.systems.network.ClientSystem;
 import game.systems.resources.MapSystem;
 import game.systems.world.NetworkedEntitySystem;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import shared.model.map.Map;
 import shared.model.map.WorldPosition;
@@ -71,7 +72,8 @@ public class MovementProcessorSystem extends IteratingSystem {
         }
     }
 
-    private static AOPhysics.Movement getDir(WorldPos worldPos, WorldPos destination) {
+    @Contract(pure = true)
+    private static AOPhysics.Movement getDir(@NotNull WorldPos worldPos, @NotNull WorldPos destination) {
         if (worldPos.x < destination.x) {
             return AOPhysics.Movement.RIGHT;
         } else if (worldPos.x > destination.x) {
@@ -127,7 +129,9 @@ public class MovementProcessorSystem extends IteratingSystem {
     }
 
     private int getHeading(AOPhysics.Movement movement) {
-        return movement == AOPhysics.Movement.UP ? Heading.HEADING_NORTH : movement == AOPhysics.Movement.DOWN ? Heading.HEADING_SOUTH : movement == AOPhysics.Movement.LEFT ? Heading.HEADING_WEST : Heading.HEADING_EAST;
+        return movement == AOPhysics.Movement.UP ? Heading.HEADING_NORTH :
+                movement == AOPhysics.Movement.DOWN ? Heading.HEADING_SOUTH :
+                        movement == AOPhysics.Movement.LEFT ? Heading.HEADING_WEST : Heading.HEADING_EAST;
     }
 
 }

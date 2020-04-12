@@ -7,6 +7,7 @@ import com.artemis.annotations.Wire;
 import com.badlogic.gdx.graphics.Camera;
 import game.systems.OrderedEntityProcessingSystem;
 import game.systems.camera.CameraSystem;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Comparator;
 
@@ -51,7 +52,7 @@ public abstract class RenderingSystem extends OrderedEntityProcessingSystem {
     }
 
     @Override
-    protected final void process(Entity e) {
+    protected final void process(@NotNull Entity e) {
         int id = e.getId();
         E fluidEntity = E(id);
         process(fluidEntity);

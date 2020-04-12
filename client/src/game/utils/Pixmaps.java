@@ -7,6 +7,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureWrap;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 
 import java.nio.Buffer;
 import java.nio.ByteBuffer;
@@ -18,7 +20,7 @@ public class Pixmaps {
 
     private static Pixmap drawPixmap;
 
-    public static void flip(Pixmap pixmap) {
+    public static void flip(@NotNull Pixmap pixmap) {
         Buffer pixels = pixmap.getPixels();
         int numBytes = pixmap.getWidth() * pixmap.getHeight() * 4;
         byte[] lines = new byte[numBytes];
@@ -31,17 +33,17 @@ public class Pixmaps {
         ((ByteBuffer) pixels).put(lines);
     }
 
-    private static Pixmap copy(Pixmap input) {
+    private static @NotNull Pixmap copy(@NotNull Pixmap input) {
         Pixmap pixmap = new Pixmap(input.getWidth(), input.getHeight(), Format.RGBA8888);
         pixmap.drawPixmap(input, 0, 0);
         return pixmap;
     }
 
-    public static Pixmap scale(Pixmap input, float scale) {
+    public static @NotNull Pixmap scale(Pixmap input, float scale) {
         return scale(input, scale, scale);
     }
 
-    public static Pixmap scale(Pixmap input, float scalex, float scaley) {
+    public static @NotNull Pixmap scale(@NotNull Pixmap input, float scalex, float scaley) {
         Pixmap pixmap = new Pixmap((int) (input.getWidth() * scalex), (int) (input.getHeight() * scaley), Format.RGBA8888);
         for (int x = 0; x < pixmap.getWidth(); x++) {
             for (int y = 0; y < pixmap.getHeight(); y++) {
@@ -51,7 +53,7 @@ public class Pixmaps {
         return pixmap;
     }
 
-    protected static Pixmap outline(Pixmap input, Color color) {
+    protected static @NotNull Pixmap outline(Pixmap input, Color color) {
         Pixmap pixmap = copy(input);
         pixmap.setColor(color);
 
@@ -65,7 +67,7 @@ public class Pixmaps {
         return pixmap;
     }
 
-    public static Pixmap zoom(Pixmap input, int scale) {
+    public static @NotNull Pixmap zoom(@NotNull Pixmap input, int scale) {
         Pixmap pixmap = new Pixmap(input.getWidth(), input.getHeight(), Format.RGBA8888);
         for (int x = 0; x < pixmap.getWidth(); x++) {
             for (int y = 0; y < pixmap.getHeight(); y++) {
@@ -75,14 +77,14 @@ public class Pixmaps {
         return pixmap;
     }
 
-    public static Pixmap resize(Pixmap input, int width, int height) {
+    public static @NotNull Pixmap resize(Pixmap input, int width, int height) {
         Pixmap pixmap = new Pixmap(width, height, Format.RGBA8888);
         pixmap.drawPixmap(input, width / 2 - input.getWidth() / 2, height / 2 - input.getHeight() / 2);
 
         return pixmap;
     }
 
-    public static Pixmap resize(Pixmap input, int width, int height, int backgroundColor) {
+    public static @NotNull Pixmap resize(Pixmap input, int width, int height, int backgroundColor) {
         Pixmap pixmap = new Pixmap(width, height, Format.RGBA8888);
         pixmap.setColor(backgroundColor);
         pixmap.fill();
@@ -91,13 +93,13 @@ public class Pixmaps {
         return pixmap;
     }
 
-    public static Pixmap crop(Pixmap input, int x, int y, int width, int height) {
+    public static @NotNull Pixmap crop(Pixmap input, int x, int y, int width, int height) {
         Pixmap pixmap = new Pixmap(width, height, Format.RGBA8888);
         pixmap.drawPixmap(input, 0, 0, x, y, width, height);
         return pixmap;
     }
 
-    public static Pixmap rotate(Pixmap input, float angle) {
+    public static @NotNull Pixmap rotate(@NotNull Pixmap input, float angle) {
         Vector2 vector = new Vector2();
         Pixmap pixmap = new Pixmap(input.getHeight(), input.getWidth(), Format.RGBA8888);
 
@@ -118,7 +120,7 @@ public class Pixmaps {
         return (i & 0x000000ff) == 0;
     }
 
-    public static void traverse(Pixmap input, IntPositionConsumer t) {
+    public static void traverse(@NotNull Pixmap input, IntPositionConsumer t) {
         for (int x = 0; x < input.getWidth(); x++) {
             for (int y = 0; y < input.getHeight(); y++) {
                 t.accept(x, y);
@@ -126,20 +128,21 @@ public class Pixmaps {
         }
     }
 
-    private static Pixmap blankPixmap() {
+    private static @NotNull Pixmap blankPixmap() {
         Pixmap pixmap = new Pixmap(1, 1, Format.RGBA8888);
         pixmap.setColor(Color.WHITE);
         pixmap.fill();
         return pixmap;
     }
 
-    private static Texture blankTexture() {
+    private static @NotNull Texture blankTexture() {
         Texture texture = new Texture(blankPixmap());
         texture.setWrap(TextureWrap.Repeat, TextureWrap.Repeat);
         return texture;
     }
 
-    public static TextureRegion blankTextureRegion() {
+    @Contract(" -> new")
+    public static @NotNull TextureRegion blankTextureRegion() {
         return new TextureRegion(blankTexture());
     }
 

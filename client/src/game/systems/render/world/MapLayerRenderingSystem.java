@@ -9,6 +9,7 @@ import game.systems.map.MapManager;
 import game.systems.map.TiledMapSystem;
 import game.systems.render.world.WorldRenderingSystem.UserRange;
 import component.position.WorldPos;
+import org.jetbrains.annotations.NotNull;
 import shared.model.map.Map;
 import shared.util.MapHelper;
 
@@ -39,7 +40,7 @@ public class MapLayerRenderingSystem extends RenderingSystem {
         drawRange(map, range);
     }
 
-    private void drawRange(Map map, UserRange range) {
+    private void drawRange(Map map, @NotNull UserRange range) {
         range.forEachTile((x, y) -> {
             Map effectiveMap = map;
             WorldPos pos = MapSystem.getHelper().getEffectivePosition(mapSystem.mapNumber, x, y);

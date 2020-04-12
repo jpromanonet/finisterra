@@ -48,7 +48,7 @@ public class AnimationsSystem extends BaseSystem {
     private ObjectSystem objectSystem;
     @Wire
     private DefaultAOAssetManager assetManager;
-    private LoadingCache<AOAnimation, BundledAnimation> previews = CacheBuilder
+    private final LoadingCache<AOAnimation, BundledAnimation> previews = CacheBuilder
             .newBuilder()
             .expireAfterAccess(3, TimeUnit.MINUTES)
             .build(CacheLoader.from(this::createAnimation));
@@ -58,26 +58,27 @@ public class AnimationsSystem extends BaseSystem {
                 .newBuilder()
                 .expireAfterAccess(1, TimeUnit.MINUTES)
                 .build(CacheLoader.from(key -> {
+                    assert key != null;
                     AOAnimation animation = assetManager.getAnimation(key);
                     return createAnimation(animation);
                 }));
-
         headAnimations = CacheBuilder.newBuilder().expireAfterAccess(3, TimeUnit.MINUTES)
                 .build(CacheLoader.from(head -> {
+                    assert head != null;
                     HeadDescriptor descriptor = descriptorsSystem.getHead(head.getIndex());
                     return createTextures(descriptor);
                 }));
         bodyAnimations = createCache((body) -> descriptorsSystem.getBody(body.getIndex()));
         helmetAnimations = createCache((helmet) -> {
-            HelmetObj helmetObj = (HelmetObj) objectSystem.getObject(helmet.getIndex()).get();
+            HelmetObj helmetObj = (HelmetObj) objectSystem.getObject(helmet.getIndex()).orElseThrow();
             return descriptorsSystem.getHelmet(Math.max(helmetObj.getAnimationId(), 0));
         });
         weaponAnimations = createCache((weapon) -> {
-            WeaponObj weaponObj = (WeaponObj) objectSystem.getObject(weapon.getIndex()).get();
+            WeaponObj weaponObj = (WeaponObj) objectSystem.getObject(weapon.getIndex()).orElseThrow();
             return descriptorsSystem.getWeapon(Math.max(weaponObj.getAnimationId(), 0));
         });
         shieldAnimations = createCache((shield) -> {
-            ShieldObj shieldObj = (ShieldObj) objectSystem.getObject(shield.getIndex()).get();
+            ShieldObj shieldObj = (ShieldObj) objectSystem.getObject(shield.getIndex()).orElseThrow();
             return descriptorsSystem.getShield(Math.max(shieldObj.getAnimationId(), 0));
         });
         fxAnimations = createCache((fx) -> descriptorsSystem.getFX(fx.getIndex()));

@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * @author Xoppa
@@ -43,7 +44,7 @@ public class RadialSprite implements Drawable {
     private float minWidth = 0;
     private float minHeight = 0;
 
-    public RadialSprite(final TextureRegion textureRegion) {
+    public RadialSprite(final @NotNull TextureRegion textureRegion) {
         this.texture = textureRegion.getTexture();
         this.u1 = textureRegion.getU();
         this.v1 = textureRegion.getV();
@@ -61,7 +62,7 @@ public class RadialSprite implements Drawable {
             verts[i * 5 + 2] = packedColor;
     }
 
-    public void setColor(final Color color) {
+    public void setColor(final @NotNull Color color) {
         setColor(color.toFloatBits());
     }
 
@@ -71,7 +72,7 @@ public class RadialSprite implements Drawable {
         vert(verts, offset, x, y, u, v);
     }
 
-    private void vert(final float[] verts, final int offset, final float x, final float y, final float u, final float v) {
+    private void vert(final float @NotNull [] verts, final int offset, final float x, final float y, final float u, final float v) {
         verts[offset] = this.x + originX + (x - this.x - originX) * scaleX;
         verts[offset + 1] = this.y + originY + (y - this.y - originY) * scaleY;
         verts[offset + 3] = u;
@@ -265,7 +266,7 @@ public class RadialSprite implements Drawable {
         return texture;
     }
 
-    public void setTextureRegion(final TextureRegion textureRegion) {
+    public void setTextureRegion(final @NotNull TextureRegion textureRegion) {
         this.texture = textureRegion.getTexture();
         this.u1 = textureRegion.getU();
         this.v1 = textureRegion.getV();

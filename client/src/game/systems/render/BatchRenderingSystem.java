@@ -17,6 +17,7 @@ import com.esotericsoftware.minlog.Log;
 import game.utils.Pos2D;
 import game.utils.Resources;
 import component.position.WorldPos;
+import org.jetbrains.annotations.NotNull;
 import shared.model.map.Tile;
 
 import java.util.Deque;
@@ -33,8 +34,8 @@ public class BatchRenderingSystem extends BaseSystem {
     private final float height;
     private FrameBuffer lightBuffer;
 
-    private Batch batch;
-    private Deque<BatchTask> tasks = new ConcurrentLinkedDeque<>();
+    private final Batch batch;
+    private final Deque<BatchTask> tasks = new ConcurrentLinkedDeque<>();
 
     public BatchRenderingSystem() {
         this.batch = initBatch();
@@ -76,7 +77,7 @@ public class BatchRenderingSystem extends BaseSystem {
         }
     }
 
-    private void renderLight(Pos2D playerPosition) {
+    private void renderLight(@NotNull Pos2D playerPosition) {
         float tx = playerPosition.x + Tile.TILE_PIXEL_WIDTH / 2;
         float ty = playerPosition.y;
         int lightWidth = (int) Tile.TILE_PIXEL_WIDTH * 30;

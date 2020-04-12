@@ -28,10 +28,10 @@ public class StatsSystem extends PassiveSystem {
 
     public class IntervalUI extends Table {
 
-        private IntervalItem attackIntervalUI;
+        private final IntervalItem attackIntervalUI;
 
-        private IntervalItem useIntervalUI;
-        private E player;
+        private final IntervalItem useIntervalUI;
+        private final E player;
 
         public IntervalUI(E player) {
             this.player = player;
@@ -60,7 +60,7 @@ public class StatsSystem extends PassiveSystem {
         }
     }
 
-    public class IntervalItem extends Table {
+    public static class IntervalItem extends Table {
 
         public final Texture image;
         public final Label time;
@@ -73,12 +73,12 @@ public class StatsSystem extends PassiveSystem {
         }
 
         public void setTime(float segs) {
-            time.setText(round(segs, 2) + "s");
+            time.setText(round(segs) + "s");
         }
 
-        BigDecimal round(float d, int decimalPlace) {
+        BigDecimal round(float d) {
             BigDecimal bd = new BigDecimal(Float.toString(d));
-            bd = bd.setScale(decimalPlace, RoundingMode.HALF_UP);
+            bd = bd.setScale(2, RoundingMode.HALF_UP);
             return bd;
         }
 

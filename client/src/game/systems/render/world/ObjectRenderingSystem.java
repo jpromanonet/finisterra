@@ -10,6 +10,7 @@ import game.systems.resources.ObjectSystem;
 import game.systems.render.BatchRenderingSystem;
 import component.position.WorldPos;
 import component.position.WorldPosOffsets;
+import org.jetbrains.annotations.NotNull;
 import shared.model.map.Tile;
 import shared.objects.types.Obj;
 import shared.util.WorldPosConversion;
@@ -27,7 +28,7 @@ public class ObjectRenderingSystem extends RenderingSystem {
     }
 
     @Override
-    protected void process(E e) {
+    protected void process(@NotNull E e) {
         Optional<Obj> object = objectSystem.getObject(e.getObject().index);
         object.ifPresent(obj -> {
             WorldPos objectPos = e.getWorldPos();

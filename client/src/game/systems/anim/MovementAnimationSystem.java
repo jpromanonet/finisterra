@@ -12,6 +12,7 @@ import game.systems.resources.AnimationsSystem;
 import model.textures.BundledAnimation;
 import component.movement.Moving;
 import component.physics.AttackAnimation;
+import org.jetbrains.annotations.NotNull;
 import shared.model.map.Tile;
 
 import java.util.Optional;
@@ -46,7 +47,7 @@ public class MovementAnimationSystem extends IteratingSystem {
         updateAnimationTime(entity, heading, false);
     }
 
-    private void updateAnimationTime(E entity, Heading heading, boolean reset) {
+    private void updateAnimationTime(@NotNull E entity, Heading heading, boolean reset) {
         Optional<Float> velocity = Optional.empty();
         if (entity.hasAOPhysics() && entity.hasCharacter()) {
             velocity = Optional.of(entity.getAOPhysics().velocity);

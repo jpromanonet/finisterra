@@ -5,6 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import component.entity.character.info.SpellBook;
 import game.utils.Skins;
+import org.jetbrains.annotations.NotNull;
 import shared.model.Spell;
 
 import java.util.ArrayList;
@@ -15,7 +16,7 @@ public abstract class SpellBookUI extends Table {
 
     private static final int MAX_SPELLS = 6;
     public Optional<SpellSlotUI> selected = Optional.empty();
-    private List<SpellSlotUI> slots = new ArrayList<>(MAX_SPELLS);
+    private final List<SpellSlotUI> slots = new ArrayList<>(MAX_SPELLS);
 
     public SpellBookUI() {
         super(Skins.COMODORE_SKIN);
@@ -41,7 +42,7 @@ public abstract class SpellBookUI extends Table {
         spellTable.toFront();
     }
 
-    public void update(SpellBook spellBook, int base) {
+    public void update(@NotNull SpellBook spellBook, int base) {
         Integer[] spells = spellBook.spells;
         for (int i = 0; i < MAX_SPELLS; i++) {
             if (i < spells.length) {
@@ -51,26 +52,12 @@ public abstract class SpellBookUI extends Table {
     }
 
     public void castClick(){
-        selected.ifPresent(spell -> onCastClicked(spell));
+        selected.ifPresent(this::onCastClicked);
     }
 
 
     protected abstract void onCastClicked(SpellSlotUI spell);
 
     protected abstract Spell getSpell(Integer spellId);
-
-//    @Override
-//    public void draw(Batch batch, float parentAlpha) {
-////        int player = GameScreen.getPlayer();
-////        Color backup = batch.getColor();
-////        if (player >= 0) {
-////            E e = E(player);
-////            if (e != null && e.hasAttack()) {
-////                batch.setColor(Colors.COMBAT);
-////            }
-////        }
-//        super.draw(batch, parentAlpha);
-////        batch.setColor(backup);
-//    }
 
 }

@@ -20,7 +20,7 @@ import shared.util.LogSystem;
  */
 public class AOGame extends Game {
 
-    private ClientConfiguration clientConfiguration;
+    private final ClientConfiguration clientConfiguration;
 
     /**
      * Constructor de la clase.

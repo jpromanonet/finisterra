@@ -32,7 +32,7 @@ public class CombatRenderingSystem extends RenderingSystem {
     public static final float VELOCITY = 1f;
     private DescriptorsSystem descriptorsSystem;
     private BatchRenderingSystem batchRenderingSystem;
-    private LoadingCache<CombatMessage, Table> messages = CacheBuilder
+    private final LoadingCache<CombatMessage, Table> messages = CacheBuilder
             .newBuilder()
             .expireAfterAccess(5, TimeUnit.MINUTES)
             .build(new CacheLoader<CombatMessage, Table>() {
@@ -98,7 +98,7 @@ public class CombatRenderingSystem extends RenderingSystem {
         }
     }
 
-    private Color getColor(CombatMessage message) {
+    private Color getColor(@NotNull CombatMessage message) {
         Color color = Color.WHITE.cpy();
         switch (message.kind) {
             case MAGIC:

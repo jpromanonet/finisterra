@@ -59,7 +59,7 @@ public class DialogRenderingSystem extends RenderingSystem {
         super(Aspect.all(Dialog.class, Body.class, WorldPos.class));
     }
 
-    private Color setColor(Dialog dialog, Label label) {
+    private Color setColor(@NotNull Dialog dialog, @NotNull Label label) {
         Color prev = label.getStyle().fontColor.cpy();
         label.setColor(dialog.kind == Kind.MAGIC_WORDS ? Colors.MANA : Color.WHITE);
         return prev;
@@ -80,7 +80,7 @@ public class DialogRenderingSystem extends RenderingSystem {
         }
     }
 
-    private void drawBubble(E player, Pos2D playerPos, Dialog dialog) {
+    private void drawBubble(@NotNull E player, @NotNull Pos2D playerPos, Dialog dialog) {
         Table label = labels.getUnchecked(dialog);
         final float x = playerPos.x + (Tile.TILE_PIXEL_WIDTH - label.getWidth()) / 2;
         float up = (Dialog.DEFAULT_TIME - dialog.time) * VELOCITY;

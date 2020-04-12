@@ -3,6 +3,8 @@ package game.utils;
 import com.artemis.E;
 import component.position.WorldPos;
 import component.position.WorldPosOffsets;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 import shared.model.map.Tile;
 
 public class Pos2D {
@@ -15,13 +17,14 @@ public class Pos2D {
         this.y = pY;
     }
 
-    public static Pos2D get(WorldPos pos, WorldPosOffsets offsets) {
+    @Contract(value = "_, _ -> new", pure = true)
+    public static @NotNull Pos2D get(@NotNull WorldPos pos, WorldPosOffsets offsets) {
         float offsetX = offsets != null ? offsets.x : 0;
         float offsetY = offsets != null ? offsets.y : 0;
         return new Pos2D(pos.x + offsetX, pos.y + offsetY);
     }
 
-    public static Pos2D get(E player) {
+    public static @NotNull Pos2D get(@NotNull E player) {
         return get(player.getWorldPos(), player.getWorldPosOffsets());
     }
 

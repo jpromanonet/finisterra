@@ -10,6 +10,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.utils.Array;
 import game.utils.Colors;
 import game.utils.Skins;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 
 public class AOConsole extends ScrollPane {
 
@@ -22,7 +24,8 @@ public class AOConsole extends ScrollPane {
         setFadeScrollBars(true);
     }
 
-    private static Actor createStack() {
+    @Contract(" -> new")
+    private static @NotNull Actor createStack() {
         return new VerticalGroup();
     }
 

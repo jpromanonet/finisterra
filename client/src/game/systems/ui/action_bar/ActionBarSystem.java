@@ -19,6 +19,7 @@ import game.systems.ui.action_bar.systems.InventorySystem;
 import game.systems.ui.action_bar.systems.SpellSystem;
 import game.ui.SwitchButtons;
 import game.utils.Skins;
+import org.jetbrains.annotations.NotNull;
 
 import static com.artemis.E.E;
 
@@ -119,7 +120,7 @@ public class ActionBarSystem extends UserInterfaceContributionSystem {
         });
         return expandInventoryButton;
     }
-    private ImageButton createCastButton() {
+    private @NotNull ImageButton createCastButton() {
         ImageButton staff = new ImageButton(Skins.COMODORE_SKIN, "staff");
         staff.addListener(new ClickListener() {
             @Override
@@ -134,7 +135,7 @@ public class ActionBarSystem extends UserInterfaceContributionSystem {
         castButton.setChecked(false);
     }
 
-    private ImageButton createShotButton() {
+    private @NotNull ImageButton createShotButton() {
         ImageButton shotButton = new ImageButton( Skins.COMODORE_SKIN, "disc" );
         shotButton.addListener(new ClickListener() {
             @Override

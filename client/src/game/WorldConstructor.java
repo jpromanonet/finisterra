@@ -44,6 +44,7 @@ import game.systems.world.NetworkedEntitySystem;
 import game.systems.world.WorldSystem;
 import game.utils.CursorSystem;
 import net.mostlyoriginal.api.system.render.ClearScreenSystem;
+import org.jetbrains.annotations.NotNull;
 import shared.systems.IntervalSystem;
 
 import java.util.Arrays;
@@ -59,7 +60,7 @@ public class WorldConstructor {
     private static final int DECORATION_PRIORITY = 3;
     private static final int UI = 0;
 
-    private static WorldConfiguration getWorldConfiguration(ClientConfiguration clientConfiguration, ScreenManager screenManager, DefaultAOAssetManager assetManager) {
+    private static @NotNull WorldConfiguration getWorldConfiguration(ClientConfiguration clientConfiguration, ScreenManager screenManager, DefaultAOAssetManager assetManager) {
         return new WorldConfigurationBuilder()
                 // Sistemas de uso global (no necesitan prioridad porque son pasivos)
                 .with(clientConfiguration,

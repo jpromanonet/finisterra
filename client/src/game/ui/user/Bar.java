@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Align;
 import game.utils.Colors;
 import game.utils.Skins;
+import org.jetbrains.annotations.NotNull;
 
 public class Bar extends Actor {
 
@@ -19,7 +20,7 @@ public class Bar extends Actor {
     private final Label points;
     private final Drawable bar = Skins.COMODORE_SKIN.getDrawable("bar");
     private final Kind kind;
-    private E e;
+    private final E e;
 
     Bar(Kind kind, E e) {
         this.kind = kind;
@@ -67,7 +68,7 @@ public class Bar extends Actor {
         batch.setColor(originalColor);
     }
 
-    private void drawBar(Batch batch, float barX, float barY, float min, int max) {
+    private void drawBar(@NotNull Batch batch, float barX, float barY, float min, int max) {
         float yFactor = getHeight() / ORIGINAL_HEIGHT;
         batch.setColor(Color.WHITE);
         background.draw(batch, barX, barY, getWidth(), getHeight());

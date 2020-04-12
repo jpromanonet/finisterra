@@ -3,6 +3,7 @@ package game.systems.network;
 import com.artemis.BaseSystem;
 import com.artemis.annotations.Wire;
 import com.badlogic.gdx.utils.TimeUtils;
+import org.jetbrains.annotations.NotNull;
 import shared.network.time.TimeSyncRequest;
 import shared.network.time.TimeSyncResponse;
 
@@ -22,7 +23,7 @@ public class TimeSync extends BaseSystem {
     /**
      * Returns a message to be sent, which should be sent immediately as the send time is tracked.
      */
-    private TimeSyncRequest send() {
+    private @NotNull TimeSyncRequest send() {
         TimeSyncRequest request = TimeSyncRequest.getNextRequest();
         requestId = request.requestId;
         sendTime = TimeUtils.millis();
@@ -33,7 +34,7 @@ public class TimeSync extends BaseSystem {
         client.send(send());
     }
 
-    public void receive(TimeSyncResponse response) {
+    public void receive(@NotNull TimeSyncResponse response) {
         long receiveTime = TimeUtils.millis();
 
         if (response.requestId == requestId) {

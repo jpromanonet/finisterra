@@ -13,16 +13,16 @@ public class BundledAnimation {
     private boolean bounce;
     private float animationTime;
     private int times;
-    private int loops;
+    private final int loops;
 
-    public BundledAnimation(TextureRegion[] textures, float speed, boolean pingpong, int loops) {
-        Animation<TextureRegion> localAnimation = new Animation<>(speed / (1000.0f * 3.334f), Array.with(textures), pingpong ? Animation.PlayMode.LOOP_PINGPONG : Animation.PlayMode.NORMAL);
+    public BundledAnimation(TextureRegion[] textures, float speed, boolean pingPong, int loops) {
+        Animation<TextureRegion> localAnimation = new Animation<>(speed / (1000.0f * 3.334f), Array.with(textures), pingPong ? Animation.PlayMode.LOOP_PINGPONG : Animation.PlayMode.NORMAL);
         this.setAnimation(localAnimation);
         this.loops = loops;
     }
 
-    public BundledAnimation(TextureRegion[] textures, float speed, boolean pingpong) {
-        this(textures, speed, pingpong, 1);
+    public BundledAnimation(TextureRegion[] textures, float speed, boolean pingPong) {
+        this(textures, speed, pingPong, 1);
     }
 
     public BundledAnimation(TextureRegion[] textures, float speed) {
@@ -33,11 +33,11 @@ public class BundledAnimation {
         this(textures, speed, false, loops);
     }
 
-    public Animation getAnimation() {
+    public Animation<TextureRegion> getAnimation() {
         return animation;
     }
 
-    public void setAnimation(Animation animation) {
+    public void setAnimation(Animation<TextureRegion> animation) {
         this.animation = animation;
     }
 

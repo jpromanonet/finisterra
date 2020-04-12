@@ -9,15 +9,16 @@ import component.entity.character.status.Level;
 import game.utils.Skins;
 import model.textures.RadialProgress;
 import model.textures.RadialSprite;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
 
 public class UserImage extends ImageButton {
 
     private final Label lvlLabel;
-    private final RadialProgress radialProgress;
     private final RadialSprite radialSprite;
-    private E e;
+    private final E e;
 
     UserImage(E e) {
         super(Skins.COMODORE_SKIN, "big-disc");
@@ -25,7 +26,7 @@ public class UserImage extends ImageButton {
         lvlLabel = new Label("", Skins.COMODORE_SKIN, "title-no-background");
         lvlLabel.setAlignment(Align.center);
         radialSprite = new RadialSprite(Skins.COMODORE_SKIN.getRegion("disc-glow"));
-        radialProgress = new RadialProgress(Skins.COMODORE_SKIN.getRegion("disc-glow"));
+        RadialProgress radialProgress = new RadialProgress(Skins.COMODORE_SKIN.getRegion("disc-glow"));
     }
 
     @Override
@@ -46,7 +47,8 @@ public class UserImage extends ImageButton {
 
     }
 
-    private float getPercent(Level level) {
+    @Contract(pure = true)
+    private float getPercent(@NotNull Level level) {
         return (float) level.exp / (float) level.expToNextLevel;
     }
 
@@ -57,7 +59,8 @@ public class UserImage extends ImageButton {
         lvlLabel.draw(batch, 1);
     }
 
-    private String getExp(Level level) {
+    @Contract(pure = true)
+    private @NotNull String getExp(@NotNull Level level) {
         return "Exp: " + level.exp + "/" + level.expToNextLevel;
     }
 
@@ -70,7 +73,8 @@ public class UserImage extends ImageButton {
         return level;
     }
 
-    private String getLevelLabel(Level level) {
+    @Contract(pure = true)
+    private @NotNull String getLevelLabel(@NotNull Level level) {
         return "Lv. " + level.level;
     }
 }

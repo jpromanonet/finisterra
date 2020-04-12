@@ -12,6 +12,7 @@ import game.systems.resources.AnimationsSystem;
 import model.textures.BundledAnimation;
 import component.movement.Moving;
 import component.physics.AttackAnimation;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,7 +46,7 @@ public class IdleAnimationSystem extends IteratingSystem {
         updateIdleTime(entity, heading, false);
     }
 
-    private void updateIdleTime(E entity, Heading heading, boolean reset) {
+    private void updateIdleTime(@NotNull E entity, Heading heading, boolean reset) {
         List<BundledAnimation> animations = new ArrayList<>();
         if (entity.hasBody()) {
             final Body body = entity.getBody();

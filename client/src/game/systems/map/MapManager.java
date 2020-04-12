@@ -6,6 +6,7 @@ import game.systems.resources.AnimationsSystem;
 import game.systems.render.BatchRenderingSystem;
 import model.textures.AOTexture;
 import model.textures.BundledAnimation;
+import org.jetbrains.annotations.NotNull;
 import shared.model.map.Map;
 import shared.model.map.Tile;
 import shared.model.map.WorldPosition;
@@ -25,7 +26,7 @@ public class MapManager extends BaseSystem {
         drawLayer(map, 0, layer, false, false, false);
     }
 
-    private void drawLayer(Map map, float delta, int layer, boolean drawExit, boolean drawBlock, boolean flip) {
+    private void drawLayer(@NotNull Map map, float delta, int layer, boolean drawExit, boolean drawBlock, boolean flip) {
         for (int x = 0; x < map.getWidth(); x++) {
             for (int y = map.getHeight() - 1; y >= 0; y--) {
                 Tile tile = map.getTile(x, y);

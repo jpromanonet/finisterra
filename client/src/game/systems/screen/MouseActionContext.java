@@ -7,8 +7,8 @@ import java.util.function.Consumer;
 
 public class MouseActionContext {
 
-    private CursorSystem.AOCursor cursor;
-    private Consumer<WorldPos> action;
+    private final CursorSystem.AOCursor cursor;
+    private final Consumer<WorldPos> action;
 
     public MouseActionContext(CursorSystem.AOCursor cursor, Consumer<WorldPos> action) {
         this.cursor = cursor;

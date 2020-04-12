@@ -1,6 +1,8 @@
 package game.utils;
 
 import com.badlogic.gdx.graphics.Color;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 
 public class Colors {
 
@@ -18,12 +20,13 @@ public class Colors {
     public static final Color RED = rgb(231, 76, 60);
     public static final Color YELLOW = rgb(244, 244, 143);
 
-    public static Color rgba(int r, int g, int b, float a) {
+    @Contract("_, _, _, _ -> new")
+    public static @NotNull Color rgba(int r, int g, int b, float a) {
         return new Color((float) r / 255, (float) g / 255, (float) b / 255, a);
     }
 
 
-    private static Color rgb(int r, int g, int b) {
+    private static @NotNull Color rgb(int r, int g, int b) {
         return rgba(r, g, b, 1);
     }
 

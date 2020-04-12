@@ -20,6 +20,7 @@ import game.utils.Pos2D;
 import model.descriptors.BodyDescriptor;
 import model.descriptors.FXDescriptor;
 import model.textures.BundledAnimation;
+import org.jetbrains.annotations.NotNull;
 import shared.model.map.Tile;
 
 import java.util.HashMap;
@@ -96,7 +97,7 @@ public class EffectRenderingSystem extends FluidIteratingSystem {
         );
     }
 
-    void drawEffect(E e, Optional<WorldPos> forcePos) {
+    void drawEffect(@NotNull E e, Optional<WorldPos> forcePos) {
         E candidate = e;
         if (e.hasRef()) {
             E entity = E(e.refId());
@@ -108,7 +109,7 @@ public class EffectRenderingSystem extends FluidIteratingSystem {
         drawEffect(e, forcePos.orElse(candidate.getWorldPos()), candidate.getWorldPosOffsets());
     }
 
-    private void drawEffect(E e, WorldPos pos, WorldPosOffsets offsets) {
+    private void drawEffect(@NotNull E e, WorldPos pos, WorldPosOffsets offsets) {
         doBegin();
         Pos2D screenPos = Pos2D.get(pos, offsets).toScreen();
         Effect effect = e.getEffect();
@@ -154,7 +155,7 @@ public class EffectRenderingSystem extends FluidIteratingSystem {
     }
 
     @Override
-    protected void process(E e) {
+    protected void process(@NotNull E e) {
         Effect effect = e.getEffect();
         int id = e.id();
         switch (effect.type) {

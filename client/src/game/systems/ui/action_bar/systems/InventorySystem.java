@@ -14,6 +14,7 @@ import component.position.WorldPos;
 import game.handlers.DefaultAOAssetManager;
 import game.systems.PlayerSystem;
 import game.systems.resources.MapSystem;
+import org.jetbrains.annotations.NotNull;
 import shared.model.map.Tile;
 import shared.systems.IntervalSystem;
 import game.systems.actions.PlayerActionSystem;
@@ -27,7 +28,6 @@ import shared.network.interaction.DropItem;
 import shared.network.interaction.TakeItemRequest;
 import shared.network.inventory.InventoryUpdate;
 import shared.objects.types.*;
-import shared.systems.IntervalSystem;
 import shared.util.ItemUtils;
 import shared.util.Messages;
 
@@ -66,7 +66,7 @@ public class InventorySystem extends UserInterfaceContributionSystem {
             @Override
             protected void dragAndDropOut(int i, int x, int y) {
                 Vector2 screenCoordinates = localToScreenCoordinates(new Vector2(x, y));
-                dropItem(i, getWorldPos(screenCoordinates.x, screenCoordinates.y));
+                dropItem(i, getWorldPos(screenCoordinates.x, screenCoordinates.y).orElseThrow());
             }
 
             @Override
@@ -80,14 +80,14 @@ public class InventorySystem extends UserInterfaceContributionSystem {
             }
 
             @Override
-            protected Tooltip getTooltip(Bag.Item item) {
+            protected Tooltip<?> getTooltip(Bag.Item item) {
                 Optional<Obj> obj = objectSystem.getObject(item.objId);
                 Actor content = obj.map(o -> createTooltipContent(item, o)).orElse(null);
                 return new Tooltip<>(content);
             }
 
 
-            private Actor createTooltipContent(Bag.Item item, Obj obj) {
+            private @NotNull Actor createTooltipContent(Bag.Item item, @NotNull Obj obj) {
                 String name = obj.getName();
                 Type objType = obj.getType();
 
@@ -173,8 +173,7 @@ public class InventorySystem extends UserInterfaceContributionSystem {
                         break;
                 }
                 table.add(assetManager.getMessages(Messages.OBJ_VALUE) + obj.getValue()).left().row();
-                table.add(assetManager.getMessages(Messages.OBJ_COUNT) + item.count)
-                        .left().row();
+                table.add(assetManager.getMessages(Messages.OBJ_COUNT) + item.count).left().row();
                 table.add("").row();
                 return table;
             }
@@ -201,15 +200,14 @@ public class InventorySystem extends UserInterfaceContributionSystem {
     }
 
     public void dropItem() {
-        dropItem(getSelectedIndex(), Optional.empty());
+        dropItem(getSelectedIndex());
     }
 
-    public void dropItem(Optional<WorldPos> pos) {
-        dropItem(getSelectedIndex(), pos);
+    public void dropItem(int droppingIndex) {
+        dropItem(droppingIndex, playerSystem.getWorldPos());
     }
-
-    public void dropItem(int droppingIndex, Optional<WorldPos> pos) {
-        clientSystem.send(new DropItem(droppingIndex, pos.orElse(playerSystem.getWorldPos())));
+    public void dropItem(int droppingIndex, WorldPos pos) {
+        clientSystem.send(new DropItem(droppingIndex, pos));
     }
 
     public void takeItem() {
@@ -273,7 +271,7 @@ public class InventorySystem extends UserInterfaceContributionSystem {
         inventory.update(playerEntity.getBag());
     }
 
-    private <T> void swap(T[] a, int i, int j) {
+    private <T> void swap(T @NotNull [] a, int i, int j) {
         T t = a[i];
         a[i] = a[j];
         a[j] = t;
@@ -282,13 +280,12 @@ public class InventorySystem extends UserInterfaceContributionSystem {
     public Optional<WorldPos> getWorldPos(float x, float y) {
         // TODO handle valid position to avoid droping items over npcs in citys
         WorldPos dropWorldPos = userInterfaceSystem.getWorldPos((int) x, (int) y);
-        Tile tile = mapSystem.getTile(  dropWorldPos);
+        Tile tile = MapSystem.getTile(dropWorldPos);
         if (!tile.isBlocked()) {
-            return Optional.of( userInterfaceSystem.getWorldPos( (int) x, (int) y ) );
+            return Optional.of(userInterfaceSystem.getWorldPos((int) x, (int) y));
         } else {
-            return Optional.of( playerSystem.getWorldPos() );
+            return Optional.of(playerSystem.getWorldPos() );
         }
-
     }
 
     public void update(Bag bag) {

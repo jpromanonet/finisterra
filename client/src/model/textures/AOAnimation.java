@@ -1,6 +1,8 @@
 package model.textures;
 
 import model.ID;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 
 import static java.util.Arrays.copyOf;
 
@@ -20,7 +22,8 @@ public class AOAnimation implements ID {
         this.speed = speed;
     }
 
-    public AOAnimation(AOAnimation other) {
+    @Contract(pure = true)
+    public AOAnimation(@NotNull AOAnimation other) {
         this.id = other.id;
         this.frames = copyOf(other.frames, other.frames.length);
         this.speed = other.speed;

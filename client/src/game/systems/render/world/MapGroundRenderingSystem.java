@@ -71,7 +71,7 @@ public class MapGroundRenderingSystem extends MapLayerRenderingSystem {
         super.doRender(map);
     }
 
-    private Texture renderLayerToBuffer(Map map, int layer) {
+    private Texture renderLayerToBuffer(@NotNull Map map, int layer) {
         int width = (int) (map.getWidth() * Tile.TILE_PIXEL_WIDTH);
         int height = (int) (map.getHeight() * Tile.TILE_PIXEL_HEIGHT);
 
@@ -96,7 +96,7 @@ public class MapGroundRenderingSystem extends MapLayerRenderingSystem {
         return fbo.getColorBufferTexture();
     }
 
-    private void renderLayer(Map map, Batch mapBatch, int layer) {
+    private void renderLayer(@NotNull Map map, Batch mapBatch, int layer) {
         for (int x = 0; x < map.getWidth(); x++) {
             for (int y = map.getHeight() - 1; y >= 0; y--) {
                 Tile tile = map.getTile(x, y);

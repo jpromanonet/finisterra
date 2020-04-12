@@ -76,7 +76,7 @@ public class CursorSystem extends PassiveSystem {
         IBAR("ibar"),
         PICKAXE("pickaxe");
 
-        private String name;
+        private final String name;
 
         AOCursor(String fileName) {
             this.name = fileName;

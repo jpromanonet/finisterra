@@ -13,6 +13,7 @@ import game.systems.resources.SoundsSystem;
 import game.systems.ui.UserInterfaceSystem;
 import game.systems.ui.action_bar.systems.InventorySystem;
 import game.systems.world.NetworkedEntitySystem;
+import org.jetbrains.annotations.NotNull;
 import shared.network.interfaces.DefaultNotificationProcessor;
 import shared.network.inventory.InventoryUpdate;
 import shared.network.movement.MovementNotification;
@@ -58,7 +59,7 @@ public class GameNotificationProcessor extends DefaultNotificationProcessor {
     }
 
     @Override
-    public void processNotification(InventoryUpdate inventoryUpdate) {
+    public void processNotification(@NotNull InventoryUpdate inventoryUpdate) {
         E player = playerSystem.get();
         Bag bag = player.getBag();
         inventoryUpdate.getUpdates().forEach((position, item) -> {
@@ -74,14 +75,14 @@ public class GameNotificationProcessor extends DefaultNotificationProcessor {
     }
 
     @Override
-    public void processNotification(MovementNotification movementNotification) {
+    public void processNotification(@NotNull MovementNotification movementNotification) {
         if (networkedEntitySystem.exists(movementNotification.getPlayerId())) {
             int playerId = networkedEntitySystem.getLocalId(movementNotification.getPlayerId());
             E(playerId).movementAdd(movementNotification.getDestination());
         }
     }
 
-    private void addComponentsToEntity(Entity newEntity, EntityUpdate entityUpdate) {
+    private void addComponentsToEntity(@NotNull Entity newEntity, @NotNull EntityUpdate entityUpdate) {
         EntityEdit edit = newEntity.edit();
         Component[] components = entityUpdate.components;
         if (components != null) {
@@ -89,17 +90,17 @@ public class GameNotificationProcessor extends DefaultNotificationProcessor {
         }
     }
 
-    private void updateEntity(EntityUpdate entityUpdate) {
+    private void updateEntity(@NotNull EntityUpdate entityUpdate) {
         int entityId = networkedEntitySystem.getLocalId(entityUpdate.entityId);
         Entity entity = world.getEntity(entityId);
         EntityEdit edit = entity.edit();
         addComponents(edit, entityUpdate.components);
-        for (Class remove : entityUpdate.toRemove) {
+        for (Class<? extends Component> remove : entityUpdate.toRemove) {
             edit.remove(remove);
         }
     }
 
-    private void addComponents(EntityEdit edit, Component[] components) {
+    private void addComponents(EntityEdit edit, Component @NotNull [] components) {
         for (Component component : components) {
             // this should replace if already exists
             edit.add(component);

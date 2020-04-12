@@ -22,6 +22,8 @@ import model.descriptors.BodyDescriptor;
 import model.textures.AOTexture;
 import model.textures.BundledAnimation;
 import component.position.WorldPos;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 import shared.model.map.Tile;
 
 import java.util.Comparator;
@@ -45,7 +47,7 @@ public class CharacterRenderingSystem extends RenderingSystem {
         super(CHAR_ASPECT);
     }
 
-    private static float getMovementOffset(BundledAnimation bodyAnimation) {
+    private static float getMovementOffset(@NotNull BundledAnimation bodyAnimation) {
         float animationTime = bodyAnimation.getAnimationTime();
         float interpolationTime = bodyAnimation.getAnimation().getAnimationDuration() / 2;
         return Interpolation.circle.apply(Math.min(1f, animationTime < interpolationTime ? animationTime / interpolationTime : interpolationTime / animationTime));
@@ -59,7 +61,7 @@ public class CharacterRenderingSystem extends RenderingSystem {
         return CHAR_ASPECT;
     }
 
-    public void drawPlayer(E player, Optional<WorldPos> forcedPos) {
+    public void drawPlayer(@NotNull E player, @NotNull Optional<WorldPos> forcedPos) {
         WorldPos pos = forcedPos.orElse(player.getWorldPos());
         Pos2D currentPos = Pos2D.get(pos, player.getWorldPosOffsets());
         Pos2D screenPos = currentPos.toScreen();
@@ -73,7 +75,7 @@ public class CharacterRenderingSystem extends RenderingSystem {
 
     public static class CharacterDrawer {
         static final float FACTOR = 1.2f;
-        private BatchRenderingSystem batchRenderingSystem;
+        private final BatchRenderingSystem batchRenderingSystem;
         private final E player;
         private final Heading heading;
         private final Pos2D screenPos;
@@ -88,7 +90,7 @@ public class CharacterRenderingSystem extends RenderingSystem {
         private BundledAnimation bodyAnimation;
         private float idle;
 
-        private CharacterDrawer(BatchRenderingSystem batchRenderingSystem, E player, Pos2D screenPos, DescriptorsSystem descriptorsSystem, AnimationsSystem animationsSystem) {
+        private CharacterDrawer(BatchRenderingSystem batchRenderingSystem, @NotNull E player, @NotNull Pos2D screenPos, DescriptorsSystem descriptorsSystem, AnimationsSystem animationsSystem) {
             this.batchRenderingSystem = batchRenderingSystem;
             this.player = player;
             this.heading = player.getHeading();
@@ -100,11 +102,12 @@ public class CharacterRenderingSystem extends RenderingSystem {
             calculateOffsets();
         }
 
-        public static CharacterDrawer createDrawer(BatchRenderingSystem batchRenderingSystem, E player, Pos2D screenPos, DescriptorsSystem descriptorsSystem, AnimationsSystem animationsSystem) {
+        @Contract("_, _, _, _, _ -> new")
+        public static @NotNull CharacterDrawer createDrawer(BatchRenderingSystem batchRenderingSystem, E player, Pos2D screenPos, DescriptorsSystem descriptorsSystem, AnimationsSystem animationsSystem) {
             return new CharacterDrawer(batchRenderingSystem, player, screenPos, descriptorsSystem, animationsSystem);
         }
 
-        public static CharacterDrawer createDrawer(BatchRenderingSystem batchRenderingSystem, E player, Pos2D screenPos, DescriptorsSystem descriptorsSystem, AnimationsSystem animationsSystem, boolean shouldFlip) {
+        public static @NotNull CharacterDrawer createDrawer(BatchRenderingSystem batchRenderingSystem, E player, Pos2D screenPos, DescriptorsSystem descriptorsSystem, AnimationsSystem animationsSystem, boolean shouldFlip) {
             CharacterDrawer characterDrawer = new CharacterDrawer(batchRenderingSystem, player, screenPos, descriptorsSystem, animationsSystem);
             characterDrawer.shouldFlip = shouldFlip;
             return characterDrawer;

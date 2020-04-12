@@ -18,7 +18,7 @@ public class SpellSlotEC extends ImageButton {
 
     static final int SIZE = 64;
     private static final float ICON_ALPHA = 0.5f;
-    private static Drawable selection = Skins.COMODORE_SKIN.getDrawable("slot-selected2");
+    private static final Drawable selection = Skins.COMODORE_SKIN.getDrawable("slot-selected2");
     private final SpellViewExpanded spellViewExpanded;
     private final ClickListener clickListener;
     private Spell spell;

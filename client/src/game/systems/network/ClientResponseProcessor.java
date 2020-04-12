@@ -8,6 +8,7 @@ import game.screens.ScreenEnum;
 import game.screens.ScreenManager;
 import game.systems.physics.MovementProcessorSystem;
 import net.mostlyoriginal.api.system.core.PassiveSystem;
+import org.jetbrains.annotations.NotNull;
 import shared.network.account.AccountCreationResponse;
 import shared.network.account.AccountLoginResponse;
 import shared.network.interfaces.IResponseProcessor;
@@ -25,7 +26,7 @@ public class ClientResponseProcessor extends PassiveSystem implements IResponseP
     private TimeSync timeSync;
 
     @Override
-    public void processResponse(MovementResponse movementResponse) {
+    public void processResponse(@NotNull MovementResponse movementResponse) {
         movementProcessorSystem.validateRequest(movementResponse.requestNumber, movementResponse.destination);
     }
 
@@ -38,7 +39,7 @@ public class ClientResponseProcessor extends PassiveSystem implements IResponseP
     }
 
     @Override
-    public void processResponse(AccountCreationResponse accountCreationResponse) {
+    public void processResponse(@NotNull AccountCreationResponse accountCreationResponse) {
         if (accountCreationResponse.isSuccessful()) {
             screenManager.to(ScreenEnum.LOGIN);
             Dialog dialog = new Dialog("Exito", screenManager.getAbstractScreen().getSkin());
@@ -55,7 +56,7 @@ public class ClientResponseProcessor extends PassiveSystem implements IResponseP
     }
 
     @Override
-    public void processResponse(AccountLoginResponse accountLoginResponse) {
+    public void processResponse(@NotNull AccountLoginResponse accountLoginResponse) {
         if (accountLoginResponse.isSuccessful()) {
             /*
             Dialog dialog = new Dialog("Exito", screen.getSkin());
@@ -75,7 +76,7 @@ public class ClientResponseProcessor extends PassiveSystem implements IResponseP
     }
 
     @Override
-    public void processResponse(UserCreateResponse userCreateResponse) {
+    public void processResponse(@NotNull UserCreateResponse userCreateResponse) {
         if (userCreateResponse.isSuccessful()) {
             screenManager.to(ScreenEnum.GAME);
         } else {
@@ -87,7 +88,7 @@ public class ClientResponseProcessor extends PassiveSystem implements IResponseP
     }
 
     @Override
-    public void processResponse(UserLoginResponse userLoginResponse) {
+    public void processResponse(@NotNull UserLoginResponse userLoginResponse) {
         if (userLoginResponse.isSuccessful()) {
             screenManager.to(ScreenEnum.GAME);
         } else {

@@ -6,6 +6,7 @@ import com.artemis.annotations.Wire;
 import component.entity.character.Character;
 import game.utils.Pos2D;
 import component.position.WorldPos;
+import org.jetbrains.annotations.NotNull;
 
 @Wire(injectInherited = true)
 public class CharacterStatesRenderingSystem extends RenderingSystem {
@@ -24,7 +25,7 @@ public class CharacterStatesRenderingSystem extends RenderingSystem {
         }
     }
 
-    private boolean isInAnyState(E entity) {
+    private boolean isInAnyState(@NotNull E entity) {
         return entity.hasMeditating() || entity.hasWriting() || entity.hasResting();
     }
 }

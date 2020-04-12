@@ -5,6 +5,7 @@ import component.entity.character.states.Heading;
 import net.mostlyoriginal.api.system.core.PassiveSystem;
 import component.physics.AOPhysics;
 import component.position.WorldPos;
+import org.jetbrains.annotations.NotNull;
 
 @Wire
 public class WorldSystem extends PassiveSystem {
@@ -23,7 +24,7 @@ public class WorldSystem extends PassiveSystem {
         return Math.abs(getDistanceX(pos1, pos2) + (pos1.y - pos2.y));
     }
 
-    public int getDistanceX(WorldPos pos1, WorldPos pos2) {
+    public int getDistanceX(@NotNull WorldPos pos1, @NotNull WorldPos pos2) {
         return pos1.x - pos2.x;
     }
 }

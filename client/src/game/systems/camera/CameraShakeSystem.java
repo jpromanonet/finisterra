@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import component.camera.Focused;
 import component.entity.character.status.Health;
+import org.jetbrains.annotations.NotNull;
 
 import static com.artemis.E.E;
 
@@ -17,7 +18,7 @@ public class CameraShakeSystem extends IteratingSystem {
 
     private float shake = 0;
     private int hp = 0;
-    private Vector2 push = new Vector2();
+    private final Vector2 push = new Vector2();
     private CameraSystem cameraSystem;
 
     @Override
@@ -63,7 +64,7 @@ public class CameraShakeSystem extends IteratingSystem {
         decrease(push, world.delta * 16f);
     }
 
-    private void decrease(final Vector2 v, final float delta) {
+    private void decrease(final @NotNull Vector2 v, final float delta) {
         if (v.x > 0) {
             v.x -= delta;
             if (v.x < 0) {

@@ -6,6 +6,8 @@ import com.badlogic.gdx.utils.Json;
 import com.esotericsoftware.minlog.Log;
 import game.utils.Resources;
 import net.mostlyoriginal.api.system.core.PassiveSystem;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import shared.util.AOJson;
 
 import java.io.FileInputStream;
@@ -30,7 +32,7 @@ public class ClientConfiguration extends PassiveSystem {
      * @throws FileNotFoundException Si no se encuentra el archivo.
 	 * @throws IOException Si por alguna misteriosa razon no se puede leer el archivo.
      */
-    public static ClientConfiguration loadConfig(String path) {
+    public static @Nullable ClientConfiguration loadConfig(String path) {
         
 		Json configObject = new AOJson();      
 		try (FileInputStream is = new FileInputStream(path)) {        
@@ -53,7 +55,7 @@ public class ClientConfiguration extends PassiveSystem {
      *
      * @return configOutput El objeto con los valores por defecto.
      */
-    public static ClientConfiguration createConfig() {
+    public static @NotNull ClientConfiguration createConfig() {
         // Default values will not be written down
         ClientConfiguration configOutput = new ClientConfiguration();
 

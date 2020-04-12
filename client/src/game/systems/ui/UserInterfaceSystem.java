@@ -25,6 +25,7 @@ import game.systems.ui.dialog.DialogSystem;
 import game.systems.ui.stats.StatsSystem;
 import game.systems.ui.user.UserSystem;
 import game.utils.Skins;
+import org.jetbrains.annotations.NotNull;
 import shared.util.WorldPosConversion;
 
 @Wire
@@ -79,7 +80,7 @@ public class UserInterfaceSystem extends IteratingSystem implements Disposable {
         fillTable(table);
     }
 
-    private void fillTable(Table table) {
+    private void fillTable(@NotNull Table table) {
         final Actor dialogUI = dialogSystem.getActor();
         stage.addActor(dialogUI);
 
@@ -107,14 +108,14 @@ public class UserInterfaceSystem extends IteratingSystem implements Disposable {
                         isInUI(userUI, x, y);
             }
 
-            private boolean isInUI(Actor actor, float x, float y) {
+            private boolean isInUI(@NotNull Actor actor, float x, float y) {
                 Vector2 localCoordinates = actor.stageToLocalCoordinates(new Vector2(x, y));
-                return isBetween(localCoordinates.x, 0, actor.getWidth())
-                        && isBetween(localCoordinates.y, 0, actor.getHeight());
+                return isBetween(localCoordinates.x, actor.getWidth())
+                        && isBetween(localCoordinates.x, actor.getHeight());
             }
 
-            private boolean isBetween(float x, float x1, float x2) {
-                return x >= x1 && x <= x2;
+            private boolean isBetween(float x, float x2) {
+                return x >= (float) 0 && x <= x2;
             }
         });
     }

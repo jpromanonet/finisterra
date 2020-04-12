@@ -1,6 +1,7 @@
 package model.textures;
 
 import model.ID;
+import org.jetbrains.annotations.NotNull;
 
 public class AOImage implements ID {
 
@@ -14,7 +15,7 @@ public class AOImage implements ID {
     public AOImage() {
     }
 
-    public AOImage(AOImage other) {
+    public AOImage(@NotNull AOImage other) {
         this.x = other.x;
         this.y = other.y;
         this.fileNum = other.fileNum;

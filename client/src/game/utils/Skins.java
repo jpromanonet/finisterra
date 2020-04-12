@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.Hinting;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonValue;
+import org.jetbrains.annotations.NotNull;
 
 public class Skins {
 
@@ -24,11 +25,11 @@ public class Skins {
         }
 
         @Override
-        protected Json getJsonLoader(final FileHandle skinFile) {
+        protected @NotNull Json getJsonLoader(final FileHandle skinFile) {
             Json json = super.getJsonLoader(skinFile);
             final Skin skin = this;
 
-            json.setSerializer(FreeTypeFontGenerator.class, new Json.ReadOnlySerializer<FreeTypeFontGenerator>() {
+            json.setSerializer(FreeTypeFontGenerator.class, new Json.ReadOnlySerializer<>() {
                 @Override
                 public FreeTypeFontGenerator read(Json json,
                                                   JsonValue jsonData, Class type) {

@@ -65,7 +65,7 @@ public class NameRenderingSystem extends RenderingSystem {
         drawClanName(player, playerPos, nameY);
     }
 
-    private float drawName(E player, Pos2D screenPos) {
+    private float drawName(@NotNull E player, @NotNull Pos2D screenPos) {
         Table nameLabel = names.getUnchecked(player.id());
 
         final float fontX = screenPos.x + ((Tile.TILE_PIXEL_WIDTH - nameLabel.getWidth()) / 2);
@@ -82,7 +82,7 @@ public class NameRenderingSystem extends RenderingSystem {
         return fontY;
     }
 
-    private void drawClanName(E player, Pos2D screenPos, float nameY) {
+    private void drawClanName(@NotNull E player, Pos2D screenPos, float nameY) {
         String clanOrHero = null;
 
         if (player.hasClan() && !player.getClan().name.isEmpty()) {
@@ -92,7 +92,7 @@ public class NameRenderingSystem extends RenderingSystem {
         }
     }
 
-    private Color setColor(E player, Label label) {
+    private @NotNull Color setColor(@NotNull E player, @NotNull Label label) {
         Color previous = new Color(label.getStyle().fontColor);
         label.getStyle().fontColor = player.hasCriminal() ? Colors.CRIMINAL : player.hasNPC() ? Colors.GREY : Colors.CITIZEN;
         return previous;

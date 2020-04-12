@@ -4,6 +4,7 @@ import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonValue;
 import model.descriptors.BodyDescriptor;
 import model.descriptors.Descriptor;
+import org.jetbrains.annotations.NotNull;
 
 public class BodyDescriptorSerializer implements Json.Serializer {
     @Override
@@ -12,7 +13,7 @@ public class BodyDescriptorSerializer implements Json.Serializer {
     }
 
     @Override
-    public Object read(Json json, JsonValue jsonData, Class type) {
+    public Object read(Json json, @NotNull JsonValue jsonData, Class type) {
         BodyDescriptor body = new BodyDescriptor();
         if (jsonData.size == 0) {
             return body;
@@ -23,7 +24,7 @@ public class BodyDescriptorSerializer implements Json.Serializer {
         return body;
     }
 
-    private void readDescriptor(JsonValue jsonData, Descriptor descriptor) {
+    private void readDescriptor(@NotNull JsonValue jsonData, @NotNull Descriptor descriptor) {
         descriptor.setId(jsonData.getInt("id", 0));
         int[] indexes = new int[4];
         indexes[0] = jsonData.getInt("up");

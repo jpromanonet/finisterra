@@ -15,7 +15,7 @@ import static com.artemis.E.E;
 public class ConsoleSystem extends IteratingSystem {
 
     private MessageSystem messageSystem;
-    private AOConsole console;
+    private final AOConsole console;
 
     public ConsoleSystem() {
         super(Aspect.all(ConsoleMessage.class));

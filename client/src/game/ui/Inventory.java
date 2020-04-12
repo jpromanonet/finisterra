@@ -15,6 +15,8 @@ import component.entity.character.info.Bag;
 import component.entity.character.info.Bag.Item;
 import game.systems.PlayerSystem;
 import game.utils.Skins;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Optional;
@@ -28,8 +30,8 @@ public abstract class Inventory extends Window {
     private int base;
 
     private PlayerSystem playerSystem;
-    private ArrayList<Slot> slots;
-    private ArrayList< Label > itemCount;
+    private final ArrayList<Slot> slots;
+    private final ArrayList< Label > itemCount;
     private Optional<Slot> selected = Optional.empty();
     private Optional<Slot> dragging = Optional.empty();
     private Optional<Slot> origin = Optional.empty();
@@ -121,7 +123,7 @@ public abstract class Inventory extends Window {
         });
     }
 
-    private Optional<Slot> getSlot(float x, float y) {
+    private @NotNull Optional<Slot> getSlot(float x, float y) {
         return Stream.of(getChildren().items)
                 .filter(Slot.class::isInstance)
                 .filter(actor -> {
@@ -134,7 +136,8 @@ public abstract class Inventory extends Window {
                 .findFirst();
     }
 
-    private ClickListener getMouseListener() {
+    @Contract(value = " -> new", pure = true)
+    private @NotNull ClickListener getMouseListener() {
         return new ClickListener() {
 
             @Override
@@ -197,7 +200,7 @@ public abstract class Inventory extends Window {
         update(base, userBag);
     }
 
-    public void update(int base, Bag userBag) {
+    public void update(int base, @NotNull Bag userBag) {
         Item[] userItems = userBag.items;
         if (expanded) {
             for (int i = 0; i < SIZE; i++) {
@@ -260,7 +263,7 @@ public abstract class Inventory extends Window {
 
     protected abstract TextureRegion getGraphic(Item item);
 
-    protected abstract Tooltip getTooltip(Item item);
+    protected abstract Tooltip<?> getTooltip(Item item);
     
 
 }

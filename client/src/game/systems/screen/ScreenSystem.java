@@ -12,6 +12,7 @@ import game.handlers.DefaultAOAssetManager;
 import game.systems.ui.console.ConsoleSystem;
 import game.utils.CursorSystem;
 import net.mostlyoriginal.api.system.core.PassiveSystem;
+import org.jetbrains.annotations.NotNull;
 import shared.util.Messages;
 
 import java.time.LocalDateTime;
@@ -84,7 +85,7 @@ public class ScreenSystem extends PassiveSystem {
         return Gdx.graphics.getWidth();
     }
 
-    public void changeResolution(Graphics.DisplayMode displayMode) {
+    public void changeResolution(Graphics.@NotNull DisplayMode displayMode) {
         this.windowedWidth = displayMode.width;
         this.windowedHeight = displayMode.height;
         setWindowed();

@@ -23,8 +23,12 @@ public class SpellsSystem extends PassiveSystem {
     public Spell[] getSpells() {
         final SpellBook spellBook = playerSystem.get().getSpellBook();
 
-        return Arrays.stream(spellBook.spells).map(this::getSpell).filter(Optional::isPresent).map(Optional::get)
-                .distinct().toArray(Spell[]::new);
+        return Arrays.stream(spellBook.spells)
+                .map(this::getSpell)
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .distinct()
+                .toArray(Spell[]::new);
     }
 
 }
