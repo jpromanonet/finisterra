@@ -1,93 +1,63 @@
 package game;
 
+import com.artemis.World;
 import com.badlogic.gdx.ApplicationListener;
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.math.Interpolation;
 import com.esotericsoftware.minlog.Log;
-import shared.util.LogSystem;
 import game.handlers.AOAssetManager;
 import game.handlers.DefaultAOAssetManager;
-import game.screens.GameScreen;
+import game.screens.LoadingScreen;
 import game.screens.ScreenEnum;
 import game.screens.ScreenManager;
-import game.screens.transitions.ColorFadeTransition;
-import game.screens.transitions.FadingGame;
-import game.utils.Cursors;
+import game.systems.network.ClientSystem;
+import shared.util.LogSystem;
 
 /**
- * Represents the game application.
- * Implements {@link ApplicationListener}.
- * <p>
- * This should be the primary instance of the app.
+ * Esta es la <b>clase principal</b> de la aplicación.
+ * Ver la documentación de libGDX sobre {@link ApplicationListener}
+ * para detalles del funcionamiento interno.
  */
-public class AOGame extends FadingGame implements AssetManagerHolder {
+public class AOGame extends Game {
 
-    public static final float GAME_SCREEN_ZOOM = 1f;
-    public static final float GAME_SCREEN_MAX_ZOOM = 1.3f;
+    private ClientConfiguration clientConfiguration;
 
-    private final AOAssetManager assetManager;
-    private final ClientConfiguration clientConfiguration;
-
+    /**
+     * Constructor de la clase.
+     * Acá no hay contexto de libGDX, ver {@link AOGame#create()}
+     */
     public AOGame(ClientConfiguration clientConfiguration) {
+        Log.setLogger(new LogSystem());
         this.clientConfiguration = clientConfiguration;
-        this.assetManager = new DefaultAOAssetManager(clientConfiguration);
     }
 
-    public static AOAssetManager getGlobalAssetManager() {
-        AssetManagerHolder game = (AssetManagerHolder) Gdx.app.getApplicationListener();
-        return game.getAssetManager();
-    }
-
+    // Crea la ventana del juego.
     @Override
     public void create() {
-        super.create();
-        Log.setLogger(new LogSystem());
-        Log.info("AOGame", "Creating AOGame...");
-        setTransition(new ColorFadeTransition(Color.BLACK, Interpolation.exp10), 1.0f);
-        Cursors.setCursor("hand");
-        ScreenManager.getInstance().initialize(this);
-        toLoading();
-        // @todo load platform-independent configuration (network, etc.)
+        Log.debug("AOGame", "Creating AOGame...");
+        // Create Loading screen
+        LoadingScreen screen = new LoadingScreen(clientConfiguration);
+        setScreen(screen);
+        screen.onFinished((assetManager) -> {
+            ScreenManager screenManager = new ScreenManager(this);
+            WorldConstructor.create(clientConfiguration, screenManager, assetManager);
+            screenManager.to(ScreenEnum.LOGIN);
+        });
     }
 
-    private void toLoading() {
-        ScreenManager.getInstance().showScreen(ScreenEnum.LOADING);
-    }
-
-    public void toLogin() {
-        ScreenManager.getInstance().showScreen(ScreenEnum.LOGIN);
-    }
-
-    public void toLobby(Object... params) {
-        ScreenManager.getInstance().showScreen(ScreenEnum.LOBBY, params);
-    }
-
-    public void toRoom(Object... params) {
-        ScreenManager.getInstance().showScreen(ScreenEnum.ROOM, params);
-    }
-
-    public void toGame(GameScreen gameScreen) {
-        setTransition(new ColorFadeTransition(Color.BLACK, Interpolation.exp10), 0f);
-        setScreen(gameScreen);
-    }
-
-    public ClientConfiguration getClientConfiguration() {
-        return clientConfiguration;
-    }
-
-    @Override
-    public AOAssetManager getAssetManager() {
-        return assetManager;
-    }
-
+    /**
+     * @todo disponer de todos los recursos utilizados y cerrar threads creados
+     * Al final, la JVM debería cerrar sola.
+     */
     @Override
     public void dispose() {
-        Log.info("AOGame","Closing client...");
+        Log.debug("AOGame", "Closing client...");
         screen.dispose();
-        getAssetManager().dispose();
-        Gdx.app.exit();
-        Log.info("Thank you for playing! See you soon...");
-        System.exit(0);
+        // @todo screenManager.dispose();
+//        assetManager.dispose();
+//        clientSystem.stop(); // @todo asegurarse que el thread de Kryonet cierre
+        Log.debug("Thank you for playing! See you soon...");
+        //System.exit(0);
     }
+
 }

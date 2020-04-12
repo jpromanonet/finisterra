@@ -1,15 +1,9 @@
 package model.textures;
 
-import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.utils.Array;
-import game.handlers.AnimationHandler;
-import game.screens.WorldScreen;
-
-import java.util.Arrays;
 
 public class BundledAnimation {
 
@@ -21,30 +15,22 @@ public class BundledAnimation {
     private int times;
     private int loops;
 
-    public BundledAnimation(AOAnimation anim, boolean pingpong, int loops) {
-        TextureRegion[] textures = Arrays.stream(anim.getFrames()).filter(i -> i > 0).mapToObj(this::getTexture).toArray(TextureRegion[]::new);
-        Animation<TextureRegion> localAnimation = new Animation<>(anim.getSpeed() / (1000.0f * 3.334f), Array.with(textures), pingpong ? Animation.PlayMode.LOOP_PINGPONG : Animation.PlayMode.NORMAL);
+    public BundledAnimation(TextureRegion[] textures, float speed, boolean pingpong, int loops) {
+        Animation<TextureRegion> localAnimation = new Animation<>(speed / (1000.0f * 3.334f), Array.with(textures), pingpong ? Animation.PlayMode.LOOP_PINGPONG : Animation.PlayMode.NORMAL);
         this.setAnimation(localAnimation);
         this.loops = loops;
     }
 
-    public BundledAnimation(AOAnimation anim, boolean pingpong) {
-        this(anim, pingpong, 1);
+    public BundledAnimation(TextureRegion[] textures, float speed, boolean pingpong) {
+        this(textures, speed, pingpong, 1);
     }
 
-    public BundledAnimation(AOAnimation anim) {
-        this(anim, false, 1);
+    public BundledAnimation(TextureRegion[] textures, float speed) {
+        this(textures, speed, false, 1);
     }
 
-    public BundledAnimation(AOAnimation anim, int loops) {
-        this(anim, false, loops);
-    }
-
-    private TextureRegion getTexture(int id) {
-        Game game = (Game) Gdx.app.getApplicationListener();
-        WorldScreen screen = (WorldScreen) game.getScreen();
-        AnimationHandler system = screen.getWorld().getSystem(AnimationHandler.class);
-        return system.getTexture(id).getTexture();
+    public BundledAnimation(TextureRegion[] textures, float speed, int loops) {
+        this(textures, speed, false, loops);
     }
 
     public Animation getAnimation() {
@@ -57,6 +43,15 @@ public class BundledAnimation {
 
     public TextureRegion getGraphic() {
         return this.animation.getKeyFrame(this.getAnimationTime());
+    }
+
+    public TextureRegion getPreviousGraphic() {
+        int index = this.animation.getKeyFrameIndex(this.getAnimationTime());
+        return this.animation.getKeyFrames()[index == 0 ? this.animation.getKeyFrames().length - 1 : index - 1];
+    }
+
+    public float getPreviousFrameTransparency() {
+        return 1 - (getAnimationTime() % this.animation.getKeyFrames().length) / this.animation.getFrameDuration();
     }
 
     public TextureRegion getGraphic(int index) {
