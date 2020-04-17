@@ -10,7 +10,6 @@ import net.mostlyoriginal.api.system.core.PassiveSystem;
 public class GameScreen extends PassiveSystem implements Screen {
 
     private UserInterfaceSystem userInterfaceSystem;
-    private FPSLogger fpsLogger = new FPSLogger();
 
     public GameScreen() {}
 
@@ -18,7 +17,6 @@ public class GameScreen extends PassiveSystem implements Screen {
     public void render(float delta) {
         world.setDelta(delta);
         world.process();
-        fpsLogger.log();
     }
 
     @Override

@@ -30,13 +30,11 @@ public class CharacterScreen extends ScreenAdapter {
     public static World world;
     private static int player;
     private final Chooser chooser;
-    private FPSLogger logger;
     private GameState state;
 
     public CharacterScreen(World world, int player) {
         CharacterScreen.world = world;
         CharacterScreen.player = player;
-        this.logger = new FPSLogger();
         chooser = new Chooser();
     }
 
@@ -64,7 +62,6 @@ public class CharacterScreen extends ScreenAdapter {
     }
 
     protected void update(float deltaTime) {
-        this.logger.log();
         world.setDelta(MathUtils.clamp(deltaTime, 0, 1 / 16f));
         world.process();
     }

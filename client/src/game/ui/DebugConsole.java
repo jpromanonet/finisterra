@@ -1,13 +1,16 @@
 package game.ui;
 
+import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 
 public class DebugConsole extends Table {
+    static public String fps;
+
     protected Skin skin;
-    protected Stage stage;
+    protected Label fpsLabel;
     protected boolean toggle;
 
     public DebugConsole(Skin skin) {
@@ -23,7 +26,8 @@ public class DebugConsole extends Table {
 
     public void create() {
         defaults().left();
-        add(new Label("FPS: 60", skin)).row();
+        fpsLabel = new Label(fps, skin);
+        add(fpsLabel).row();
         add(new Label("Lorem ipsum dolor sit amet, consectetur adipiscing elit.", skin)).row();
         add(new Label("Sed in elementum sem.", skin)).row();
         add(new Label("Sed fermentum semper augue eu iaculis.", skin)).row();
@@ -31,6 +35,18 @@ public class DebugConsole extends Table {
         add(new Label("Curabitur dui nunc, elementum quis interdum in, commodo et arcu.", skin)).row();
         add(new Label("Vivamus vel orci ligula. Nunc ut semper mi.", skin)).row();
         //pack();
+    }
+
+    @Override
+    protected void setParent(Group parent) {
+        super.setParent(parent);
+        setZIndex(999);
+    }
+
+    @Override
+    public void act(float delta) {
+        super.act(delta);
+        fpsLabel.setText(fps);
     }
 
     public void toggle() {

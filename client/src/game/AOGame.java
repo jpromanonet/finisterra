@@ -5,10 +5,12 @@ import com.artemis.World;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.graphics.FPSLogger;
 import com.esotericsoftware.minlog.Log;
 import game.screens.LoadingScreen;
 import game.screens.ScreenEnum;
 import game.screens.ScreenManager;
+import game.ui.DebugConsole;
 import shared.util.LogSystem;
 
 /**
@@ -21,6 +23,7 @@ public class AOGame extends Game {
     private AssetManager assetManager;
     private ClientConfiguration clientConfiguration;
     private World world;
+    private FPSLogger fpsLogger;
 
     /**
      * Constructor de la clase.
@@ -29,6 +32,7 @@ public class AOGame extends Game {
     public AOGame(ClientConfiguration clientConfiguration) {
         Log.setLogger(new LogSystem());
         this.clientConfiguration = clientConfiguration;
+        fpsLogger = new FPSLogger(s -> DebugConsole.fps = s);
     }
 
     // Crea la ventana del juego.
@@ -44,6 +48,12 @@ public class AOGame extends Game {
             this.world = WorldConstructor.create(clientConfiguration, screenManager, assetManager);
             screenManager.to(ScreenEnum.LOGIN);
         });
+    }
+
+    @Override
+    public void render() {
+        super.render();
+        fpsLogger.log();
     }
 
     /**

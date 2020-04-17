@@ -41,7 +41,7 @@ public class LoginScreen extends AbstractScreen {
     private List<ClientConfiguration.Network.Server> serverList;
     private Preferences preferences = Gdx.app.getPreferences("Finisterra");
 
-    private DebugConsole debugConsole = new DebugConsole(Skins.COMODORE_SKIN);
+    private DebugConsole debugConsole;
 
     public LoginScreen() {
     }
@@ -173,6 +173,7 @@ public class LoginScreen extends AbstractScreen {
         getMainTable().add(buttonsTable).height( 100 ).width( 920 ).pad(3);
         getStage().setKeyboardFocus(emailField);
 
+        debugConsole = new DebugConsole(Skins.COMODORE_SKIN);
         getStage().addActor(debugConsole);
     }
 
