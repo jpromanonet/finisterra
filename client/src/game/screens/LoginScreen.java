@@ -15,6 +15,8 @@ import game.handlers.DefaultAOAssetManager;
 import game.systems.network.ClientSystem;
 import game.systems.resources.MusicSystem;
 import game.systems.resources.SoundsSystem;
+import game.ui.DebugConsole;
+import game.utils.Skins;
 import shared.network.account.AccountLoginRequest;
 import shared.util.Messages;
 
@@ -37,21 +39,26 @@ public class LoginScreen extends AbstractScreen {
     private CheckBox disableSound;
     private TextButton loginButton;
     private List<ClientConfiguration.Network.Server> serverList;
-    private Preferences preferences = Gdx.app.getPreferences("Finisterra");;
+    private Preferences preferences = Gdx.app.getPreferences("Finisterra");
+
+    private DebugConsole debugConsole = new DebugConsole(Skins.COMODORE_SKIN);
 
     public LoginScreen() {
     }
 
     @Override
     protected void keyPressed(int keyCode) {
-        if (keyCode == Input.Keys.ESCAPE) {
-            Gdx.app.exit();
+        switch (keyCode) {
+            case Input.Keys.ESCAPE:
+                Gdx.app.exit();
+                break;
+            case Input.Keys.TAB:
+                debugConsole.toggle();
+                break;
+            case Input.Keys.ENTER:
+                loginButton.toggle();
+                break;
         }
-//       if (keyCode == Input.Keys.ENTER && this.canConnect) {
-//           this.canConnect = false;
-//           connectThenLogin();
-//           Gdx.app.exit();
-//       }
     }
 
     @Override
@@ -165,6 +172,8 @@ public class LoginScreen extends AbstractScreen {
         getMainTable().add(login_server).row();
         getMainTable().add(buttonsTable).height( 100 ).width( 920 ).pad(3);
         getStage().setKeyboardFocus(emailField);
+
+        getStage().addActor(debugConsole);
     }
 
     private class LoginButtonListener extends ChangeListener {

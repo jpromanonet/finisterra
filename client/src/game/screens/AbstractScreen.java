@@ -29,50 +29,27 @@ public abstract class AbstractScreen extends PassiveSystem implements Screen {
                 return super.keyUp(keyCode);
             }
         };
-        mainTable = new Table(SKIN);
-        mainTable.setFillParent(true);
-        mainTable.setBackground(BACKGROUND);
-        stage.addActor(mainTable);
-
-    }
-
-    @Override
-    protected void initialize() {
-        createUI();
-    }
-
-    protected abstract void createUI();
-
-    protected void keyPressed(int keyCode) {
-        //do nothing
-    }
-
-    public Stage getStage() {
-        return stage;
-    }
-
-    public Table getMainTable() {
-        return mainTable;
-    }
-
-    public Skin getSkin() {
-        return SKIN;
     }
 
     @Override
     public void show() {
+        mainTable = new Table(SKIN);
+        mainTable.setFillParent(true);
+        mainTable.setBackground(BACKGROUND);
+        stage.addActor(mainTable);
+        createUI();
         Gdx.input.setInputProcessor(getStage());
     }
 
     @Override
     public void render(float delta) {
-        getStage().act(delta);
-        getStage().draw();
+        stage.act(delta);
+        stage.draw();
     }
 
     @Override
     public void resize(int width, int height) {
-        getStage().getViewport().update(width, height);
+        stage.getViewport().update(width, height, true);
     }
 
     @Override
@@ -97,6 +74,24 @@ public abstract class AbstractScreen extends PassiveSystem implements Screen {
      */
     @Override
     public void dispose() {
-        getStage().dispose();
+        stage.dispose();
+    }
+
+    protected abstract void createUI();
+
+    protected void keyPressed(int keyCode) {
+        //do nothing
+    }
+
+    public Stage getStage() {
+        return stage;
+    }
+
+    public Table getMainTable() {
+        return mainTable;
+    }
+
+    public Skin getSkin() {
+        return SKIN;
     }
 }
